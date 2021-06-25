@@ -61,7 +61,7 @@
 
 6. 小米运动不会更新步数，只有关联的会同步！！！！！
 
-7. 请各位在使用时Fork[主分支](https://github.com/Squaregentleman/mimotion/)，防止出现不必要的bug.
+7. 请各位在使用时Fork[主分支](https://github.com/577fkj/mimotion/)，防止出现不必要的bug.
 
 8. TG推送教程 [点我](./TG_PUSH.md)
 
@@ -69,4 +69,4 @@
 
 ## 历史Star数
 
-[![Stargazers over time](https://starchart.cc/Squaregentleman/mimotion.svg)](https://starchart.cc/Squaregentleman/mimotion)
+[![Stargazers over time](https://starchart.cc/577fkj/mimotion.svg)](https://starchart.cc/577fkj/mimotion)
