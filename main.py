@@ -342,13 +342,13 @@ if __name__ == "__main__":
 
     if len(user_list) == len(passwd_list):
         push = ''
-        for line in range(0, len(user_list)):
+        for user, passwd in zip(user_list, passwd_list):
             if len(setp_array) == 2:
                 step = str(random.randint(int(setp_array[0]), int(setp_array[1])))
                 print(f"已设置为随机步数（{setp_array[0]}-{setp_array[1]}）")
             elif str(step) == '0':
                 step = ''
-            push += main(user_list[line], passwd_list[line], step) + '\n'
+            push += main(user, passwd, step) + '\n'
         if Pm == 'wx':
             push_wx(sckey, push)
         elif Pm == 'nwx':
