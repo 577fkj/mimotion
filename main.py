@@ -194,7 +194,7 @@ def push_pushplus(_token, content=""):
     if _token == '':
         print("[注意] 未提供token，不进行pushplus推送！")
     else:
-        server_url = f"http://www.pushplus.plus/send"
+        server_url = "http://www.pushplus.plus/send"
         params = {
             "token": _token,
             "title": '小米运动 步数修改',
@@ -228,7 +228,7 @@ def push_tg(_token, chat_id, desp=""):
         response = requests.get(server_url, params=params)
         json_data = response.json()
 
-        if json_data['ok'] == True:
+        if json_data['ok']:
             print(f"[{now}] 推送成功。")
         else:
             print(f"[{now}] 推送失败：{json_data['error_code']}({json_data['description']})")
