@@ -7,6 +7,7 @@
 import json
 import random
 import re
+import sys
 import time
 
 import requests
@@ -187,16 +188,16 @@ def push_server(_sckey, desp=""):
             print(f"[{now}] 推送失败：{json_data['code']}({json_data['message']})")
 
 
-def push_pushplus(_token, content=""):
+def push_pushplus(token, content=""):
     """
     推送消息到pushplus
     """
-    if _token == '':
+    if token == '':
         print("[注意] 未提供token，不进行pushplus推送！")
     else:
         server_url = "http://www.pushplus.plus/send"
         params = {
-            "token": _token,
+            "token": token,
             "title": '小米运动 步数修改',
             "content": content
         }
@@ -210,16 +211,16 @@ def push_pushplus(_token, content=""):
             print(f"[{now}] 推送失败：{json_data['code']}({json_data['message']})")
 
 
-def push_tg(_token, chat_id, desp=""):
+def push_tg(token, chat_id, desp=""):
     """
     推送消息到TG
     """
-    if _token == '':
+    if token == '':
         print("[注意] 未提供token，不进行tg推送！")
     elif chat_id == '':
         print("[注意] 未提供chat_id，不进行tg推送！")
     else:
-        server_url = f"https://api.telegram.org/bot{_token}/sendmessage"
+        server_url = f"https://api.telegram.org/bot{token}/sendmessage"
         params = {
             "text": '小米运动 步数修改\n\n' + desp,
             "chat_id": chat_id
@@ -300,69 +301,112 @@ def wxpush(msg, usr, corpid, corpsecret, agentid=1000002):
         send_message(msg, usr)
 
 
+class ToPush:
+    """
+    推送接口类
+    处理pkey并转发推送消息到推送函数
+    """
+    push_msg: str
+
+    def __init__(self, _pkey):
+        self.pkey = _pkey
+
+    def to_push_wx(self):
+        """
+        推送server酱接口
+        """
+        if str(self.pkey) == '0':
+            self.pkey = ''
+        push_wx(self.pkey, self.push_msg)
+
+    def to_push_server(self):
+        """
+        推送消息到微信接口
+        """
+        if str(self.pkey) == '0':
+            self.pkey = ''
+        push_server(self.pkey, self.push_msg)
+
+    def to_push_tg(self):
+        """
+        推送消息到TG接口
+        """
+        try:
+            token, chat_id = self.pkey.split('@')
+            push_tg(token, chat_id, self.push_msg)
+        except ValueError:
+            print('tg推送参数有误！')
+
+    def to_wxpush(self):
+        """
+        企业微信推送接口
+        """
+        try:
+            usr, corpid, corpsecret, *agentid = self.pkey.split('-')
+            if agentid:
+                wxpush(self.push_msg, usr, corpid, corpsecret, int(agentid[0]))
+            else:
+                wxpush(self.push_msg, usr, corpid, corpsecret)
+        except ValueError:
+            print('企业微信推送参数有误！')
+
+    def to_push_pushplus(self):
+        """
+        接口
+        """
+        if self.pkey == '':
+            print('pushplus token错误')
+        else:
+            push_pushplus(self.pkey, self.push_msg)
+
+    @staticmethod
+    def no_push():
+        """
+        不推送
+        """
+        print('不推送')
+
+
 if __name__ == "__main__":
     # Push Mode
-    Pm = input()
-    if Pm == 'wx' or Pm == 'nwx':
-        # ServerChan
-        sckey = input()
-        if str(sckey) == '0':
-            sckey = ''
-    elif Pm == 'tg':
-        token = input()
-        sl = token.split('@')
-        if len(sl) != 2:
-            print('tg推送参数有误！')
-    elif Pm == 'qwx':
-        token = input()
-        sl = token.split('-')
-        if len(sl) < 3:
-            print('企业微信推送参数有误！')
-    elif Pm == 'pp':
-        token = input()
-        if token == '':
-            print('pushplus token错误')
-    elif Pm == 'off':
-        input()
-        print('不推送')
-    else:
-        print('推送选项有误！')
-        exit(0)
+    Pm = sys.argv[0]
+    pkey = sys.argv[1]
+
+    to_push = ToPush(pkey)
 
     # 用户名（格式为 13800138000）
-    user = input()
+    user = sys.argv[2]
     # 登录密码
-    passwd = input()
+    passwd = sys.argv[3]
     # 要修改的步数，直接输入想要修改的步数值，留空为随机步数
-    step = input().replace('[', '').replace(']', '')
+    step = sys.argv[4].replace('[', '').replace(']', '')
 
     user_list = user.split('#')
     passwd_list = passwd.split('#')
     setp_array = step.split('-')
 
     if len(user_list) == len(passwd_list):
-        push = ''
+        push_msg = ''
         for user, passwd in zip(user_list, passwd_list):
             if len(setp_array) == 2:
                 step = str(random.randint(int(setp_array[0]), int(setp_array[1])))
                 print(f"已设置为随机步数（{setp_array[0]}-{setp_array[1]}）")
             elif str(step) == '0':
                 step = ''
-            push += main(user, passwd, step) + '\n'
-        if Pm == 'wx':
-            push_wx(sckey, push)
-        elif Pm == 'nwx':
-            push_server(sckey, push)
-        elif Pm == 'tg':
-            push_tg(sl[0], sl[1], push)
-        elif Pm == 'qwx':
-            if len(sl) == 4:
-                wxpush(push, sl[0], sl[1], sl[2], int(sl[3]))
-            else:
-                wxpush(push, sl[0], sl[1], sl[2])
-        elif Pm == 'pp':
-            push_pushplus(token, push)
-        elif Pm == 'off':
-            pass
+            push_msg += main(user, passwd, step) + '\n'
+
+        push = {
+            'wx': to_push.to_push_wx,
+            'nwx': to_push.to_push_server,
+            'tg': to_push.to_push_tg,
+            'qwx': to_push.to_wxpush,
+            'pp': to_push.to_push_pushplus,
+            'off': to_push.no_push
+        }
+        try:
+            push[Pm]()
+        except KeyError:
+            print('推送选项有误！')
+            exit(0)
     else:
         print('用户名和密码数量不对')
