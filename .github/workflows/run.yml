@@ -16,24 +16,24 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
-    - uses: actions/checkout@v2
-    - name: 初始化Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.7
-    - name: 开始
-      run: |
-        pip install requests
-        pmode='${{ secrets.PMODE }}'
-        pkey='${{ secrets.PKEY }}'
-        user='${{ secrets.USER }}'
-        pwd='${{ secrets.PWD }}'
-        step='${{ secrets.STEP }}'
-        
-        python3 main.py <<EOF
-        ${pmode}
-        ${pkey}
-        ${user}
-        ${pwd}
-        ${step}
-        EOF
+      - uses: actions/checkout@v2
+      - name: 初始化Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: 开始
+        run: |
+          pip install requests
+          pmode='${{ secrets.PMODE }}'
+          pkey='${{ secrets.PKEY }}'
+          user='${{ secrets.USER }}'
+          pwd='${{ secrets.PWD }}'
+          step='${{ secrets.STEP }}'
+
+          python3 main.py <<EOF
+          ${pmode}
+          ${pkey}
+          ${user}
+          ${pwd}
+          ${step}
+          EOF
