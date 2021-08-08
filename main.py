@@ -369,17 +369,17 @@ class ToPush:
 
 if __name__ == "__main__":
     # Push Mode
-    Pm = sys.argv[0]
-    pkey = sys.argv[1]
+    Pm = sys.argv[1]
+    pkey = sys.argv[2]
 
     to_push = ToPush(pkey)
 
     # 用户名（格式为 13800138000）
-    user = sys.argv[2]
+    user = sys.argv[3]
     # 登录密码
-    passwd = sys.argv[3]
-    # 要修改的步数，直接输入想要修改的步数值，留空为随机步数
-    step = sys.argv[4].replace('[', '').replace(']', '')
+    passwd = sys.argv[4]
+    # 要修改的步数，直接输入想要修改的步数值，0为随机步数
+    step = sys.argv[5].replace('[', '').replace(']', '')
 
     user_list = user.split('#')
     passwd_list = passwd.split('#')

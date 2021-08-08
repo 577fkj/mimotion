@@ -25,7 +25,7 @@
 | Server酱推送 |   `填写server酱的推送key`|
 | 企业微信推送 |   `推送用户（可@all）-corpid-corpsecret-(agentid 空则为默认1000002)`|
 | PushPlus推送 |   `token`|
-| 关闭推送 |   `留空即可`|
+| 关闭推送 |   `off`|
 
 ### 三、多账户(用不上请忽略)
 
