@@ -5,8 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  schedule:
-    - cron: 31 21 * * *
+  时间表：
+    -计划：57 21 * * *
   watch:
     types: started
 
