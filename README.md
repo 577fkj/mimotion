@@ -1,4 +1,5 @@
 # mimotion
+改改
 小米运动刷步数 原github Squaregentleman被封 为了不耽误你们正常fork 我开了新号
 # 小米运动自动刷步数
 
