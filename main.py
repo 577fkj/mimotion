@@ -296,9 +296,9 @@ def main(_user, _passwd, _step):
     }
 
     data = f'userid={userid}&last_sync_data_time=1597306380&device_type=0&last_deviceid=DA932FFFFE8816E7&data_json={quote(json.dumps(data_json))}'
-
+    print(data)
     response = requests.post(url, data=data, headers=head).json()
-    # print(response)
+    print(response)
     result = f"{_user[:4]}****{_user[-4:]}: [{now}] 修改步数（{_step}）" + response['message']
     print(result)
     return result
