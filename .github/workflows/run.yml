@@ -1,4 +1,4 @@
-name: 刷步数
+name: 刷米步数
 
 on:
   push:
