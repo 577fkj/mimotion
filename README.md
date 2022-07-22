@@ -1,4 +1,4 @@
-# mimotion
+# Mimotion
 # 请不要点自己项目的 Create pull request 不要提起无意义的pr，否则你将会被我拉黑！
 # 请不要点自己项目的 Create pull request 不要提起无意义的pr，否则你将会被我拉黑！
 # 请不要点自己项目的 Create pull request 不要提起无意义的pr，否则你将会被我拉黑！
@@ -11,7 +11,15 @@
 ### 一、Fork 此仓库
 
 ### 二、设置账号密码
-> 添加名为  **PMODE**、**PKEY**、**USER**、**PWD**、**STEP** 的变量: Settings-->Secrets-->New secret  
+> 前往: Settings-->Secrets-->Actions-->New repository secret
+
+> 依次添加名为: **PMODE**、**PKEY**、**USER**、**PWD**、**STEP**
+
+#### 例如
+
+![image](https://user-images.githubusercontent.com/86393520/180457841-4735aa49-6def-4c6f-92ad-f93235c505dc.png)
+
+#### 参数详解
 
 | Secrets |  格式  |
 | -------- | ----- |
